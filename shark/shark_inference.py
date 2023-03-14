@@ -210,3 +210,6 @@ class SharkInference:
             self.device_idx,
         )
         return
+    def forward(self, function_name: str, inputs: tuple, send_to_host=True):
+        return self.shark_runner.run(function_name, inputs, send_to_host)
+

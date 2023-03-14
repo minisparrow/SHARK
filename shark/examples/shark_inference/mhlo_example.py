@@ -14,24 +14,27 @@ arg1 = np.ones((4, 1)).astype(np.float32)
 
 print("Running shark on cpu backend")
 shark_module = SharkInference(
-    mhlo_ir, function_name="forward", device="cpu", mlir_dialect="mhlo"
+    mhlo_ir, device="cpu", mlir_dialect="mhlo"
 )
 
-# Generate the random inputs and feed into the graph.
-x = shark_module.generate_random_inputs()
 shark_module.compile()
-print(shark_module.forward(x))
+result = shark_module(function_name="forward", inputs=(arg0, arg1))
+print(result)
 
 print("Running shark on cuda backend")
 shark_module = SharkInference(
-    mhlo_ir, function_name="forward", device="cuda", mlir_dialect="mhlo"
+    mhlo_ir, device="cuda", mlir_dialect="mhlo"
 )
+
 shark_module.compile()
-print(shark_module.forward(x))
+result = shark_module(function_name="forward", inputs=(arg0, arg1))
+print(result)
 
 print("Running shark on vulkan backend")
 shark_module = SharkInference(
-    mhlo_ir, function_name="forward", device="vulkan", mlir_dialect="mhlo"
+    mhlo_ir, device="vulkan", mlir_dialect="mhlo"
 )
+
 shark_module.compile()
-print(shark_module.forward(x))
+result = shark_module(function_name="forward", inputs=(arg0, arg1))
+print(result)
